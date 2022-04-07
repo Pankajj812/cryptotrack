@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addToWatchList,
   fetchCoinDetails,
   fetchCoinHistory,
 } from "../../store/CoinDetails/actions";
@@ -11,6 +12,7 @@ import {
   getCoinHistory,
   getErrorSelector,
   getPendingSelector,
+  watchlistSelector,
 } from "../../store/CoinDetails/selectors";
 import { Box } from "@mui/system";
 import { Button, Typography } from "@mui/material";
@@ -20,8 +22,6 @@ import { HistoryChart } from "../../components/HistoryChart";
 import moment from "moment";
 import BaseSelect from "../../components/Select";
 import { frequecyOptions, selectOptions } from "../../constants";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 function CoinDetails() {
   const dispatch = useDispatch();
@@ -31,22 +31,9 @@ function CoinDetails() {
   const error = useSelector(getErrorSelector);
   const coinHistory = useSelector(getCoinHistory);
   const filter = useSelector(chartFilterSelector);
+  const watchLists = useSelector(watchlistSelector);
 
   const { id } = params;
-
-  const buttonTheme = createTheme({
-    components: {
-      MuiButton: {
-        styleOverrides: {
-          // Name of the slot
-          root: {
-            height: "40px",
-            marginRight: "5%",
-          },
-        },
-      },
-    },
-  });
 
   useEffect(() => {
     dispatch(fetchCoinDetails({ id }));
@@ -70,6 +57,21 @@ function CoinDetails() {
   );
   const priceCorrespondentToLabels = prices?.map((item) => item[1]);
 
+  const handleWatchList = (coinDetails) => {
+    if (watchLists.length > 0) {
+      const found = watchLists?.find((item) => item.id === coinDetails.id);
+      if (found) {
+        const updatedWatchList = watchLists.filter(
+          (item) => item.id !== coinDetails.id
+        );
+        dispatch(addToWatchList(updatedWatchList));
+        return;
+      }
+    }
+    dispatch(addToWatchList([...watchLists, coinDetails]));
+  };
+
+  console.log("Watch List", watchLists)
   return (
     <Box
       sx={{
@@ -82,29 +84,39 @@ function CoinDetails() {
         },
       }}
     >
-      {loading && <Loader />}
       {error && <Typography className="danger">{error}</Typography>}
-      {!loading &&
-        !error &&
-        coinDetails &&
-        Object.keys(coinDetails).length > 0 && (
-          <Box display="flex" justifyContent="space-between">
-            <CoinCard coinDetails={coinDetails} />
-            <ThemeProvider theme={buttonTheme}>
-              <Button
-                height={40}
-                variant="contained"
-                endIcon={<BookmarkBorderIcon />}
-              >
-                Add to Watchlist
-              </Button>
-            </ThemeProvider>
-          </Box>
-        )}
 
-      {labels && priceCorrespondentToLabels && (
-        <Box>
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <Box style={{ display: "flex" }}>
+        <Box display="flex" justifyContent="space-between">
+          {!error && coinDetails && Object.keys(coinDetails).length > 0 && (
+            <>
+              <CoinCard
+                coinDetails={coinDetails}
+                handleWatchList={() => {
+                  handleWatchList(coinDetails);
+                }}
+                watchLists ={watchLists}
+              />
+            </>
+          )}
+        </Box>
+
+        <Box style={{ marginLeft: "2%", marginTop: "1%" }}>
+          <Box width={900}>
+            {loading && !priceCorrespondentToLabels && <Loader />}
+            {labels && priceCorrespondentToLabels && (
+              <HistoryChart
+                chartData={{ labels, priceCorrespondentToLabels, filter }}
+              />
+            )}
+          </Box>
+          <div
+            style={{
+              marginTop: "2%",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
             <BaseSelect
               classes="base"
               label="Currency"
@@ -118,11 +130,8 @@ function CoinDetails() {
               defaultValue="365"
             />
           </div>
-          <HistoryChart
-            chartData={{ labels, priceCorrespondentToLabels, filter }}
-          />
         </Box>
-      )}
+      </Box>
     </Box>
   );
 }

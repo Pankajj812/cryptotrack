@@ -21,3 +21,13 @@ export const chartFilterSelector = createSelector(
   (state) => state.coinDetails.chartFilter,
   (chartFilter) => chartFilter
 );
+
+export const trendingCoinSelector = createSelector(
+  (state) => state.coinDetails.trendingCoin,
+  (trendingCoin) => trendingCoin
+);
+
+export const watchlistSelector = createSelector(
+  (state) => state.coinDetails.watchLists,
+  (watchLists) => watchLists
+);

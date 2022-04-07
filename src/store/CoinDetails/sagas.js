@@ -1,18 +1,31 @@
 import axios from "axios";
 import { all, call, put, takeLatest } from "redux-saga/effects";
-import { BASE_URL, HistoricalChart, SingleCoin } from "../../api/endpoint";
+import {
+  BASE_URL,
+  HistoricalChart,
+  SingleCoin,
+  TrendingCoins,
+} from "../../api/endpoint";
 
 import {
   fetchCoinDetailsFailure,
   fetchCoinDetailsSuccess,
   fetchCoinHistoryFailure,
   fetchCoinHistorySuccess,
+  fetchTrendingCoinsFailure,
+  fetchTrendingCoinsSuccess,
 } from "./actions";
-import { FETCH_COIN_DETAILS, FETCH_COIN_HISTORY } from "./actionTypes";
+import {
+  FETCH_COIN_DETAILS,
+  FETCH_COIN_HISTORY,
+  FETCH_TRENDING_COIN,
+} from "./actionTypes";
 
-const getCoinList = (id) => axios.get(`${BASE_URL}${SingleCoin(id)}`);
+const getCoinList = async (id) => axios.get(`${BASE_URL}${SingleCoin(id)}`);
 const getCoinHistory = (id, days, currency) =>
   axios.get(`${BASE_URL}${HistoricalChart(id, days, currency)}`);
+const getTrendingCoins = (currency) =>
+  axios.get(`${BASE_URL}${TrendingCoins(currency)}`);
 
 /*
   Worker Saga: Fired on FETCH_COIN_DETAILS action
@@ -36,13 +49,13 @@ function* fetchCoinDetails({ payload }) {
 
 function* fetchCoinHistory({ payload }) {
   try {
-    console.log(payload);
     const response = yield call(
       getCoinHistory,
       payload?.id,
       payload?.days,
       payload?.currency
     );
+    console.log("Response", payload.id, response);
     yield put(
       fetchCoinHistorySuccess({
         coinDetails: response.data,
@@ -57,6 +70,22 @@ function* fetchCoinHistory({ payload }) {
   }
 }
 
+function* fetchTrendingCoins({ payload }) {
+  try {
+    const response = yield call(getTrendingCoins, payload?.currency);
+    yield put(
+      fetchTrendingCoinsSuccess({
+        trendingCoins: response.data,
+      })
+    );
+  } catch (e) {
+    yield put(
+      fetchTrendingCoinsFailure({
+        error: e.message,
+      })
+    );
+  }
+}
 /*
   Starts worker saga on latest dispatched `FETCH_COIN_DETAILS` action.
   Allows concurrent increments.
@@ -65,6 +94,7 @@ function* fetchCoinDetailsSaga() {
   yield all([
     takeLatest(FETCH_COIN_DETAILS, fetchCoinDetails),
     takeLatest(FETCH_COIN_HISTORY, fetchCoinHistory),
+    takeLatest(FETCH_TRENDING_COIN, fetchTrendingCoins),
   ]);
 }
 

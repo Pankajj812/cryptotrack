@@ -45,7 +45,7 @@ export default function Loader() {
       setProgress((prevProgress) =>
         prevProgress >= 100 ? 0 : prevProgress + 10
       );
-    }, 800);
+    }, 200);
     return () => {
       clearInterval(timer);
     };

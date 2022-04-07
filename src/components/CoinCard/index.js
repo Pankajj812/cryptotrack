@@ -3,15 +3,22 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Divider } from "@mui/material";
+import {
+  CardActionArea,
+  createTheme,
+  Divider,
+  IconButton,
+} from "@mui/material";
 import "./styles.css";
 import { Box } from "@mui/system";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import RedditIcon from "@mui/icons-material/Reddit";
 import TelegramIcon from "@mui/icons-material/Telegram";
+import { ThemeProvider } from "@emotion/react";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
-export default function CoinCard({ coinDetails }) {
+export default function CoinCard({ coinDetails, handleWatchList, watchLists }) {
   const {
     image: { large },
     name,
@@ -25,9 +32,17 @@ export default function CoinCard({ coinDetails }) {
     coingecko_rank,
     market_data: { current_price, market_cap },
   } = coinDetails;
+
+  const isAddedToWatchList = watchLists.find(
+    (item) => item.id === coinDetails.id
+  );
+
   return (
     <Card sx={{ maxWidth: 350 }}>
       <CardActionArea>
+        <IconButton onClick={handleWatchList} className="bookmark">
+          <BookmarkBorderIcon color={isAddedToWatchList ? "primary" : ""} />
+        </IconButton>
         <CardMedia component="img" className="image" image={large} alt={name} />
         <Divider className="divider" light />
         <CardContent>

@@ -2,3 +2,34 @@
     text-align: center;
     margin-top: 12% !important;
 }
+
+.trending {
+    margin-left: 39% !important;
+    margin-top: 2% !important;
+    font-weight: 700 !important;
+    font-size: larger !important;
+}
+
+.priceChangeIncrease {
+    color: green
+}
+
+
+.priceChangeDecrease {
+    color: red
+}
+
+.top {
+    line-height: 2.4 !important;
+    margin-left: 20px !important;
+}
+
+.topdiv {
+    display: flex;
+    margin-left: 20px;
+    justify-content: space-around;
+}
+
+.progress {
+    margin-left: 20px !important;
+}

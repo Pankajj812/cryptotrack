@@ -20,7 +20,6 @@ export default function BaseSelect(props) {
       })
     );
   };
-  console.log("ilter", filter);
   return (
     <Box className={classes ? "base" : "baseSelect"}>
       <FormControl fullWidth>
