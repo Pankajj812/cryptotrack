@@ -1,19 +1,15 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import "./styles.css";
-import { Grid, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { trendingCoinSelector } from "../../store/CoinDetails/selectors";
 import { fetchTrendingCoins } from "../../store/CoinDetails/actions";
 import Carousel from "react-material-ui-carousel";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
-import {
-  getErrorSelector,
-  getPendingSelector,
-  getTodosSelector,
-} from "../../store/AllCoins/selectors";
+import { getTodosSelector } from "../../store/AllCoins/selectors";
 import { fetchAllCoins } from "../../store/AllCoins/actions";
 import { useNavigate } from "react-router-dom";
 
@@ -23,20 +19,20 @@ export default function WatchList(props) {
   const navigate = useNavigate();
   const [coins, setCoins] = React.useState([]);
 
-  const loading = useSelector(getPendingSelector);
+  // const loading = useSelector(getPendingSelector);
   const allCoins = useSelector(getTodosSelector);
-  const error = useSelector(getErrorSelector);
+  // const error = useSelector(getErrorSelector);
 
   const [sortedCoin, setSortedCoin] = React.useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(fetchTrendingCoins({ currency: "usd" }));
     dispatch(fetchAllCoins());
   }, []);
 
   console.log(allCoins);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (allCoins?.length > 0) {
       const sorted = allCoins
         .sort(

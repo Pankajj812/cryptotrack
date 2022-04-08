@@ -5,7 +5,6 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import {
   CardActionArea,
-  createTheme,
   Divider,
   IconButton,
 } from "@mui/material";
@@ -15,7 +14,6 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import RedditIcon from "@mui/icons-material/Reddit";
 import TelegramIcon from "@mui/icons-material/Telegram";
-import { ThemeProvider } from "@emotion/react";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 export default function CoinCard({ coinDetails, handleWatchList, watchLists }) {

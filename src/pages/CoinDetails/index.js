@@ -15,7 +15,7 @@ import {
   watchlistSelector,
 } from "../../store/CoinDetails/selectors";
 import { Box } from "@mui/system";
-import { Button, Typography } from "@mui/material";
+import {Typography } from "@mui/material";
 import Loader from "../../components/Loader";
 import CoinCard from "../../components/CoinCard";
 import { HistoryChart } from "../../components/HistoryChart";
