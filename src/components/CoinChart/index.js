@@ -65,7 +65,7 @@ export default function CoinChart(props) {
         display: "flex",
         flexWrap: "wrap",
         "& > :not(style)": {
-          m: 2,
+          m: 3,
           width: "50%",
           height: "10%",
         },

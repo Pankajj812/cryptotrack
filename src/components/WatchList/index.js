@@ -15,10 +15,12 @@ import {
   getTodosSelector,
 } from "../../store/AllCoins/selectors";
 import { fetchAllCoins } from "../../store/AllCoins/actions";
+import { useNavigate } from "react-router-dom";
 
 export default function WatchList(props) {
   const trendingCoins = useSelector(trendingCoinSelector);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [coins, setCoins] = React.useState([]);
 
   const loading = useSelector(getPendingSelector);
@@ -74,35 +76,47 @@ export default function WatchList(props) {
         {!props?.chartData && (
           <>
             <Typography className="trending">Top Movers Past 24h</Typography>
-            {sortedCoin?.map((coin) => (
-              <div className="topdiv">
-                <img height={30} width={30} src={coin.image}></img>
-                <Typography className="top">{coin.name}</Typography>
-                <Typography
-                  className={
-                    coin?.price_change_percentage_24h > 0
-                      ? "priceChangeIncrease"
-                      : "priceChangeDecrease"
-                  }
+
+            <div>
+              {sortedCoin?.map((coin) => (
+                <div
+                  class="container"
+                  onClick={() => {
+                    navigate(`/coin/${coin?.id}`);
+                  }}
                 >
-                  {coin?.price_change_percentage_24h > 0 ? (
-                    <TrendingUpIcon />
-                  ) : (
-                    <TrendingDownIcon />
-                  )}
-                  {coin?.price_change_percentage_24h.toFixed(2)}%
-                </Typography>
-                <Typography
-                  className={
-                    coin?.price_change_24h > 0
-                      ? "priceChangeIncrease"
-                      : "priceChangeDecrease"
-                  }
-                >
-                  {coin?.price_change_24h}
-                </Typography>
-              </div>
-            ))}
+                  <div class="item">
+                    <img height={30} width={30} src={coin.image}></img>
+                  </div>
+                  <div class="item">{coin.name}</div>
+                  <div
+                    class="item"
+                    className={
+                      coin?.price_change_percentage_24h > 0
+                        ? "priceChangeIncrease"
+                        : "priceChangeDecrease"
+                    }
+                  >
+                    {coin?.price_change_percentage_24h > 0 ? (
+                      <TrendingUpIcon />
+                    ) : (
+                      <TrendingDownIcon />
+                    )}
+                    {coin?.price_change_percentage_24h.toFixed(2)}%
+                  </div>
+                  <div
+                    class="item"
+                    className={
+                      coin?.price_change_24h > 0
+                        ? "priceChangeIncrease"
+                        : "priceChangeDecrease"
+                    }
+                  >
+                    {coin?.price_change_24h}
+                  </div>
+                </div>
+              ))}
+            </div>
           </>
         )}
       </Paper>
@@ -127,7 +141,13 @@ export default function WatchList(props) {
               >
                 {item.map((subitem, i) => {
                   return (
-                    <Box key={subitem.id}>
+                    <Box
+                      style={{ cursor: "pointer" }}
+                      key={subitem.id}
+                      onClick={() => {
+                        navigate(`/coin/${subitem?.id}`);
+                      }}
+                    >
                       <img height={70} width={70} src={subitem.image}></img>
                       <Typography>{subitem.name}</Typography>
                       <Typography
