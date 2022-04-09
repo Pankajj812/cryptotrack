@@ -2,7 +2,6 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CoinChart from "../../components/CoinChart";
-import { MarketApp } from "../../components/MarketCap";
 import WatchList from "../../components/WatchList";
 import { fetchAllCoins } from "../../store/AllCoins/actions";
 import { getTodosSelector } from "../../store/AllCoins/selectors";
