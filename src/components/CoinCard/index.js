@@ -3,11 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import {
-  CardActionArea,
-  Divider,
-  IconButton,
-} from "@mui/material";
+import { CardActionArea, Divider, IconButton } from "@mui/material";
 import "./styles.css";
 import { Box } from "@mui/system";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -36,10 +32,10 @@ export default function CoinCard({ coinDetails, handleWatchList, watchLists }) {
   );
 
   return (
-    <Card sx={{ maxWidth: 350 }}>
+    <Card sx={{ maxWidth: 350, background: "black", color: "white" }}>
       <CardActionArea>
         <IconButton onClick={handleWatchList} className="bookmark">
-          <BookmarkBorderIcon color={isAddedToWatchList ? "primary" : ""} />
+          <BookmarkBorderIcon color={isAddedToWatchList ? "primary" : "secondary"} />
         </IconButton>
         <CardMedia component="img" className="image" image={large} alt={name} />
         <Divider className="divider" light />
@@ -94,7 +90,11 @@ export default function CoinCard({ coinDetails, handleWatchList, watchLists }) {
             color="black"
             variant="body2"
           >
-            <span dangerouslySetInnerHTML={{ __html: en.split(". ")[0] }} />.
+            <span
+              style={{ color: "white" }}
+              dangerouslySetInnerHTML={{ __html: en.split(". ")[0] }}
+            />
+            .
           </Typography>
         </CardContent>
       </CardActionArea>

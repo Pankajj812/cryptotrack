@@ -60,7 +60,7 @@ export default function CoinChart(props) {
 
   return (
     <Box
-      style={{ height: "10%", width: "50%" }}
+      style={{ height: "10%", width: "50%", backgroundColor: "black" }}
       sx={{
         display: "flex",
         flexWrap: "wrap",
@@ -71,7 +71,7 @@ export default function CoinChart(props) {
         },
       }}
     >
-      <Paper>
+      <Paper style={{ background: "black" }}>
         {props.children}
         <Bar options={options} data={dataOption} />
       </Paper>

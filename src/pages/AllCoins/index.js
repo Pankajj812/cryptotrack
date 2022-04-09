@@ -34,6 +34,8 @@ function AllCoins() {
       sortable: true,
       align: "center",
       headerAlign: "center",
+      headerClassName: "super-app",
+      cellClassName: (params) => clsx("super-app"),
     },
     {
       field: "coin",
@@ -42,6 +44,7 @@ function AllCoins() {
       sortable: false,
       align: "center",
       headerAlign: "center",
+      headerClassName: "super-app",
       renderCell: (params) => (
         <img height="auto" width={45} src={params.value} />
       ),
@@ -53,6 +56,8 @@ function AllCoins() {
       sortable: false,
       align: "center",
       headerAlign: "center",
+      headerClassName: "super-app",
+      cellClassName: (params) => clsx("super-app"),
     },
     {
       field: "price",
@@ -61,6 +66,8 @@ function AllCoins() {
       sortable: false,
       align: "center",
       headerAlign: "center",
+      headerClassName: "super-app",
+      cellClassName: (params) => clsx("super-app"),
     },
     {
       field: "change",
@@ -69,6 +76,7 @@ function AllCoins() {
       sortable: false,
       align: "center",
       headerAlign: "center",
+      headerClassName: "super-app",
       cellClassName: (params) =>
         clsx("super-app", {
           negative: params.value.includes("-"),
@@ -81,7 +89,9 @@ function AllCoins() {
       width: (window.innerWidth - 100) / 6,
       sortable: true,
       align: "center",
+      headerClassName: "super-app",
       headerAlign: "center",
+      cellClassName: (params) => clsx("super-app"),
     },
   ];
 

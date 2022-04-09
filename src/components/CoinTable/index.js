@@ -34,19 +34,26 @@ export default function CoinTable({ columns, rows }) {
         "& .super-app.positive": {
           color: "green",
         },
+        "& .super-app": {
+          color: "white",
+        },
+        "& div.MuiTablePagination-root": {
+          color: "white",
+        },
       }}
     >
       <DataGrid
         className={classes.root}
         rows={rows}
         columns={columns}
-        pageSize={8}
-        rowsPerPageOptions={[8]}
+        pageSize={9}
+        rowsPerPageOptions={[9]}
         disableColumnSelector
         checkboxSelection={false}
         disableColumnMenu={true}
         onRowClick={(row) => handleRowClick(row)}
         style={{ cursor: "pointer" }}
+        // GridLinesVisibility={false}
       />
     </Box>
   );

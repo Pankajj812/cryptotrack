@@ -79,13 +79,13 @@ function CoinDetails() {
         "& > :not(style)": {
           m: 2,
           width: "100%",
-          height: "100vh",
+          height: "auto",
         },
       }}
     >
       {error && <Typography className="danger">{error}</Typography>}
 
-      <Box style={{ display: "flex" }}>
+      <Box style={{ display: "flex"}}>
         <Box display="flex" justifyContent="space-between">
           {!error && coinDetails && Object.keys(coinDetails).length > 0 && (
             <>

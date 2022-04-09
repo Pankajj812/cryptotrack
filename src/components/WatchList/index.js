@@ -65,7 +65,7 @@ export default function WatchList(props) {
         },
       }}
     >
-      <Paper>
+      <Paper style={{ background: "black", color: "white" }}>
         {!props?.chartData && (
           <>
             <Typography className="trending">Top Movers Past 24h</Typography>
@@ -114,7 +114,7 @@ export default function WatchList(props) {
           </>
         )}
       </Paper>
-      <Paper>
+      <Paper style={{ background: "black", color: "white" }}>
         <Typography className="trending">Trending Coins</Typography>
         <Carousel
           navButtonsAlwaysInvisible={true}
