@@ -15,7 +15,7 @@ import {
   watchlistSelector,
 } from "../../store/CoinDetails/selectors";
 import { Box } from "@mui/system";
-import {Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import Loader from "../../components/Loader";
 import CoinCard from "../../components/CoinCard";
 import { HistoryChart } from "../../components/HistoryChart";
@@ -71,7 +71,6 @@ function CoinDetails() {
     dispatch(addToWatchList([...watchLists, coinDetails]));
   };
 
-  console.log("Watch List", watchLists)
   return (
     <Box
       sx={{
@@ -95,7 +94,7 @@ function CoinDetails() {
                 handleWatchList={() => {
                   handleWatchList(coinDetails);
                 }}
-                watchLists ={watchLists}
+                watchLists={watchLists}
               />
             </>
           )}
@@ -117,12 +116,12 @@ function CoinDetails() {
               justifyContent: "flex-end",
             }}
           >
-            <BaseSelect
+            {/* <BaseSelect
               classes="base"
               label="Currency"
               options={selectOptions}
               defaultValue="usd"
-            />
+            /> */}
             <BaseSelect
               classes="base base1"
               label="Frequency"

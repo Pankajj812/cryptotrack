@@ -9,17 +9,22 @@ import {
   getPendingSelector,
   getTodosSelector,
 } from "../../store/AllCoins/selectors";
+import { chartFilterSelector } from "../../store/CoinDetails/selectors";
 import "./styles.css";
+import getSymbolFromCurrency from "currency-symbol-map";
+import { formatNumbers, roundOff } from "../../utils/common";
+import clsx from "clsx";
 
 function AllCoins() {
   const loading = useSelector(getPendingSelector);
   const coins = useSelector(getTodosSelector);
   const error = useSelector(getErrorSelector);
   const dispatch = useDispatch();
+  const filter = useSelector(chartFilterSelector);
 
   useEffect(() => {
-    dispatch(fetchAllCoins());
-  }, []);
+    dispatch(fetchAllCoins({ currency: filter?.currency }));
+  }, [filter?.currency]);
 
   const columns = [
     {
@@ -37,7 +42,9 @@ function AllCoins() {
       sortable: false,
       align: "center",
       headerAlign: "center",
-      renderCell: (params) => <img height="auto" width={45} src={params.value} />,
+      renderCell: (params) => (
+        <img height="auto" width={45} src={params.value} />
+      ),
     },
     {
       field: "name",
@@ -49,7 +56,7 @@ function AllCoins() {
     },
     {
       field: "price",
-      headerName: "Price ($)",
+      headerName: "Price",
       width: (window.innerWidth - 100) / 6,
       sortable: false,
       align: "center",
@@ -62,6 +69,11 @@ function AllCoins() {
       sortable: false,
       align: "center",
       headerAlign: "center",
+      cellClassName: (params) =>
+        clsx("super-app", {
+          negative: params.value.includes("-"),
+          positive: !params.value.includes("-"),
+        }),
     },
     {
       field: "marketCap",
@@ -79,10 +91,22 @@ function AllCoins() {
       rank: coin?.market_cap_rank || "N/A",
       coin: coin?.image,
       name: coin?.name,
-      change: coin?.price_change_24h,
-      price: coin?.current_price,
-      marketCap: coin?.market_cap,
-      coinId: coin?.id
+      change: `${
+        filter.currency === "usd"
+          ? getSymbolFromCurrency("USD")
+          : getSymbolFromCurrency("INR")
+      } ${formatNumbers(roundOff(coin?.price_change_24h, 4))}`,
+      price: `${
+        filter.currency === "usd"
+          ? getSymbolFromCurrency("USD")
+          : getSymbolFromCurrency("INR")
+      } ${formatNumbers(roundOff(coin?.current_price, 2))}`,
+      marketCap: `${
+        filter.currency === "usd"
+          ? getSymbolFromCurrency("USD")
+          : getSymbolFromCurrency("INR")
+      } ${formatNumbers(roundOff(coin?.market_cap))}`,
+      coinId: coin?.id,
     };
   });
 
@@ -91,11 +115,6 @@ function AllCoins() {
       sx={{
         display: "flex",
         flexWrap: "wrap",
-        "& > :not(style)": {
-          m: 2,
-          width: "100%",
-          height: "100vh",
-        },
       }}
     >
       {loading && <Loader />}

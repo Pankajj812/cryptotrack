@@ -1,4 +1,4 @@
 .danger {
-    color: red;
+    color: red !important;
     text-align: center;
 }

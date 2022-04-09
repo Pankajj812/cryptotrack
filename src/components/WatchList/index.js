@@ -12,6 +12,7 @@ import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import { getTodosSelector } from "../../store/AllCoins/selectors";
 import { fetchAllCoins } from "../../store/AllCoins/actions";
 import { useNavigate } from "react-router-dom";
+import { formatNumbers, roundOff } from "../../utils/common";
 
 export default function WatchList(props) {
   const trendingCoins = useSelector(trendingCoinSelector);
@@ -29,8 +30,6 @@ export default function WatchList(props) {
     dispatch(fetchTrendingCoins({ currency: "usd" }));
     dispatch(fetchAllCoins());
   }, []);
-
-  console.log(allCoins);
 
   useEffect(() => {
     if (allCoins?.length > 0) {
@@ -54,8 +53,6 @@ export default function WatchList(props) {
     }
   }, [trendingCoins]);
 
-  console.log("sortedCoin", sortedCoin);
-
   return (
     <Box
       sx={{
@@ -64,7 +61,7 @@ export default function WatchList(props) {
         "& > :not(style)": {
           m: 3,
           width: "46%",
-          height: "40vh",
+          height: "auto",
         },
       }}
     >
@@ -98,7 +95,8 @@ export default function WatchList(props) {
                     ) : (
                       <TrendingDownIcon />
                     )}
-                    {coin?.price_change_percentage_24h.toFixed(2)}%
+                    {formatNumbers(roundOff(coin?.price_change_percentage_24h))}
+                    %
                   </div>
                   <div
                     class="item"
@@ -108,7 +106,7 @@ export default function WatchList(props) {
                         : "priceChangeDecrease"
                     }
                   >
-                    {coin?.price_change_24h}
+                    {formatNumbers(roundOff(coin?.price_change_24h, 4))}
                   </div>
                 </div>
               ))}
@@ -158,7 +156,10 @@ export default function WatchList(props) {
                         ) : (
                           <TrendingDownIcon />
                         )}
-                        {subitem?.price_change_percentage_24h.toFixed(2)}%
+                        {formatNumbers(
+                          roundOff(subitem?.price_change_percentage_24h)
+                        )}
+                        %
                       </Typography>
                     </Box>
                   );

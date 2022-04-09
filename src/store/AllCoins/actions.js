@@ -4,8 +4,9 @@ import {
   FETCH_ALL_COINS_SUCCESS,
 } from "./actionTypes";
 
-export const fetchAllCoins = () => ({
+export const fetchAllCoins = (payload) => ({
   type: FETCH_ALL_COINS,
+  payload,
 });
 
 export const fetchAllCoinsSuccess = (payload) => ({

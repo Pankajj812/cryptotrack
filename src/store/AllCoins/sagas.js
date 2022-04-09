@@ -5,14 +5,15 @@ import { BASE_URL, CoinList } from "../../api/endpoint";
 import { fetchAllCoinsFailure, fetchAllCoinsSuccess } from "./actions";
 import { FETCH_ALL_COINS } from "./actionTypes";
 
-const getCoinList = () => axios.get(`${BASE_URL}${CoinList("usd")}`);
+const getCoinList = (currency) => axios.get(`${BASE_URL}${CoinList(currency)}`);
 
 /*
   Worker Saga: Fired on FETCH_ALL_COINS action
 */
-function* fetchCoinsSaga() {
+function* fetchCoinsSaga(payload) {
+  const { currency } = payload?.payload ?? {};
   try {
-    const response = yield call(getCoinList);
+    const response = yield call(getCoinList, currency ?? "usd");
     yield put(
       fetchAllCoinsSuccess({
         coins: response.data,

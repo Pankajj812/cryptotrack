@@ -7,8 +7,10 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import "./styles.css";
 import { ThemeProvider } from "@emotion/react";
-import { createTheme } from "@mui/material";
+import { Avatar, createTheme, IconButton, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import BaseSelect from "../Select";
+import { selectOptions } from "../../constants";
 
 const pages = ["Dashboard", "All Coins"];
 // const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -36,12 +38,12 @@ const Header = () => {
   const handleNavigation = (page) => {
     navigate(`/${page.replace(/ /g, "").toLowerCase()}`);
   };
-  
+
   const darkTheme = createTheme({
     palette: {
       mode: "dark",
       primary: {
-        main: "#ffff",
+        main: "#000",
       },
     },
   });
@@ -68,16 +70,20 @@ const Header = () => {
                   onClick={() => {
                     handleNavigation(page);
                   }}
-                  sx={{ my: 2, color: "black", display: "block" }}
+                  sx={{ my: 2, color: "white", display: "block" }}
                 >
                   {page}
                 </Button>
               ))}
             </Box>
-
+            <BaseSelect
+              classes="base"
+              options={selectOptions}
+              label="Currency"
+            />
             <Box sx={{ flexGrow: 0 }}>
               {/* <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <IconButton sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                 </IconButton>
               </Tooltip> */}

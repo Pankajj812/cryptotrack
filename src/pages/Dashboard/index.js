@@ -1,3 +1,4 @@
+import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CoinChart from "../../components/CoinChart";
@@ -5,24 +6,25 @@ import WatchList from "../../components/WatchList";
 import { fetchAllCoins } from "../../store/AllCoins/actions";
 import { getTodosSelector } from "../../store/AllCoins/selectors";
 import { fetchTrendingCoins } from "../../store/CoinDetails/actions";
+import { chartFilterSelector } from "../../store/CoinDetails/selectors";
 
 import "./styles.css";
 function Dashboard() {
   const dispatch = useDispatch();
   // const trendingCoins = useSelector(trendingCoinSelector);
   // const coinHistory = useSelector(getCoinHistory);
-
   // const loading = useSelector(getPendingSelector);
   const coins = useSelector(getTodosSelector);
   // const error = useSelector(getErrorSelector);
+  const filter = useSelector(chartFilterSelector);
 
   const [label, setLabel] = useState([]);
   const [data, setData] = useState({});
 
   useEffect(() => {
-    dispatch(fetchTrendingCoins({ currency: "usd" }));
-    dispatch(fetchAllCoins());
-  }, []);
+    dispatch(fetchTrendingCoins({ currency: filter?.currency ?? "usd" }));
+    dispatch(fetchAllCoins({ currency: filter?.currency ?? "usd" }));
+  }, [filter?.currency]);
 
   useEffect(() => {
     if (coins?.length > 0) {
@@ -50,9 +52,15 @@ function Dashboard() {
 
   return (
     <>
-      <CoinChart label={label} data={data}>
-        {/* <BaseSelect /> */}
-      </CoinChart>
+      <Box style={{ display: "flex", width: "100%", height: "10%" }}>
+        <CoinChart label={label} data={data}>
+          {/* <BaseSelect /> */}
+        </CoinChart>
+        <CoinChart label={label} data={data}>
+          {/* <BaseSelect /> */}
+        </CoinChart>
+      </Box>
+
       <WatchList />
     </>
   );

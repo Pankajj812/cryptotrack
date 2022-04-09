@@ -55,7 +55,6 @@ function* fetchCoinHistory({ payload }) {
       payload?.days,
       payload?.currency
     );
-    console.log("Response", payload.id, response);
     yield put(
       fetchCoinHistorySuccess({
         coinDetails: response.data,

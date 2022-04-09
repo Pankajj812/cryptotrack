@@ -47,7 +47,6 @@ export const options = {
 
 export default function CoinChart(props) {
   const { label, data } = props;
-
   const dataOption = {
     labels: label,
     datasets: [
@@ -61,12 +60,13 @@ export default function CoinChart(props) {
 
   return (
     <Box
+      style={{ height: "10%", width: "50%" }}
       sx={{
         display: "flex",
         flexWrap: "wrap",
         "& > :not(style)": {
           m: 3,
-          width: "50%",
+          width: "94%",
           height: "10%",
         },
       }}
