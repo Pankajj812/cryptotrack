@@ -12,6 +12,7 @@ function App() {
       <div className="rootpage">
         <Header />
         <Routes>
+          <Route path="/" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/watchlist" element={<WatchList />} />
           <Route path="/allcoins" element={<AllCoins />} />
